@@ -31,9 +31,4 @@ class Store {
     });
 	}
 
-	addNote(note) {
-		const { title, text } = note;
-		if (!title ||!text) {
-			throw new Error('Note must have a title and text inside');
-    }
-	}
+
