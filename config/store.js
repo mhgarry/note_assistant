@@ -1,46 +1,57 @@
-// will store all of our data/notes
-// to add all functions we need for our application
-const util = require('util');
-// to read and write our files and json data
-const fs = require('fs/promises');
-// to generate a unique id for each note
-const { v4: uuidv4 } = require('uuid');
-
-// read and write notes
-const readFileAsync = util.promisfy(fs.readFile);
-const writeFileAsync = util.promisfy(fs.writeFile);
-
+// code to save, read, update, and delete notes from the database db.json file
+const util = require('util'); // brings in our utiiity functions specifically util.promisify
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid'); // makes a unique id for each note
+// reads files from the database db.json file and writes them to the db.json file
+const readFileAsync = util.promisify(fs.readFile);
+const writeFileAsync = util.promisify(fs.writeFile);
+// make a class called store to read and write note from the database db.json file
 class Store {
-  write(note) {
-    return writeFileAsync('./db/db.json', JSON.stringify(note));
+  read() {
+    return readFileAsync('db/db.json', 'utf8');
   }
 
-  read() {
-    return readFileAsync('./db/db.json');
+  // writes note to the database db.json file
+  write(note) {
+    return writeFileAsync('db/db.json', JSON.stringify(note));
   }
-	//gets the notes from the database and returns them as an array
-  getNote() {
-		return this.read().then((notes => {
-			let convertedNotes;
+
+  // get all notes from the database db.json file
+  getNotes() {
+    return this.read().then((notes) => {
+      let parsedNotes;
       try {
-				convertedNotes = [].concat(JSON.parse(notes));
-			} catch (err) {
-				convertedNotes = [];
-			}
-			return convertedNotes;
+        parsedNotes = [].concat(JSON.parse(notes));
+      } catch (err) {
+        parsedNotes = [];
+      }
+
+      return parsedNotes;
     });
-	}
-	//adds a new note to the database
-	insertNote(note) {'
-		// create a unique id for notes and add a error message if title or text is not provided
-		const { title, text } = note;
-		if(!title ||!text) {
-			throw new Error('Please provide a note title and note text');
-		}
-		// create a unique ID for each note
-		const createNote = { title, text, id: uuidv4() };
-		// gets existing notes from database, adds new note, and updates notes
-		return this.getNote().then(note => [...note, createNote])
-		.then(updateNotes => this.write(updateNotes))
-		.then(() => createNote)
-	}};
+  }
+
+  // add note to the database db.json file
+  addNote(note) {
+    const { title, text } = note;
+
+    if (!title || !text) {
+      throw new Error('Note title and text cannot be blank');
+    }
+
+    const newNote = { title, text, id: uuidv4() };
+
+    return this.getNotes()
+      .then((notes) => [...notes, newNote])
+      .then((updatedNotes) => this.write(updatedNotes))
+      .then(() => newNote);
+  }
+
+  // delete note from the database db.json file
+  removeNote(id) {
+    return this.getNotes()
+      .then((notes) => notes.filter((note) => note.id !== id))
+      .then((filteredNotes) => this.write(filteredNotes));
+  }
+}
+// export the store class to be used to save, read, update, and delete notes fro the database db.json file
+module.exports = Store;
