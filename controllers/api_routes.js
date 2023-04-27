@@ -1,29 +1,25 @@
+const express = require('express');
+const router = express.Router();
+const Store = require('../config/store');
 
-const router = require('express').Router();
-const store = require('..//config/store');
-
-// get request
-router.get('/notes', (req, res) => {
-  store
-    .getNotes()
-    .then((notes) => res.json(notes))
-    .catch((err) => res.status(500).json(err));
+const store = new Store('./db.json');
+// get notes route
+router.get('/notes', async (req, res) => {
+  const notes = await store.getNotes();
+  res.json(notes);
 });
-
-// post request
-router.post('/notes', (req, res) => {
-  store
-    .addNote(req.body)
-    .then((note) => res.json(note))
-    .catch((err) => res.status(500).json(err));
+// post notes route
+router.post('/notes', async (req, res) => {
+  const note = req.body;
+  const newNote = await store.addNote(note);
+  res.json(newNote);
 });
-
-// delete request
-router.delete('/notes/:id', (req, res) => {
-  store
-    .removeNote(req.params.id)
-    .then(() => res.json({ removed: true }))
-    .catch((err) => res.status(500).json(err));
+// delete notes route
+router.delete('/notes/:id', async (req, res) => {
+  const id = req.params.id;
+  await store.removeNote(id);
+  res.json({ message: 'Note deleted' });
 });
-
+// export router and routes
 module.exports = router;
+
