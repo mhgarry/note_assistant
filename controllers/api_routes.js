@@ -20,11 +20,10 @@ router.post('/notes', (req, res) => {
 
 // delete request
 router.delete('/notes/:id', (req, res) => {
-	store
-	.removeNote(req.params.id),
-	.then(() => res.json({ removed: true}))
-	.catch((err) => res.status(500).json(err));
-})
+  store
+    .removeNote(req.params.id)
+    .then(() => res.json({ removed: true }))
+    .catch((err) => res.status(500).json(err));
+});
 
 module.exports = router;
-
