@@ -39,4 +39,8 @@ class Store {
 		}
 		// create a unique ID for each note
 		const createNote = { title, text, id: uuidv4() };
-	}
+		// gets existing notes from database, adds new note, and updates notes
+		return this.getNote().then(note => [...note, createNote])
+		.then(updateNotes => this.write(updateNotes))
+		.then(() => createNote)
+	}};
