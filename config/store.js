@@ -30,5 +30,13 @@ class Store {
 			return convertedNotes;
     });
 	}
-
-
+	//adds a new note to the database
+	insertNote(note) {'
+		// create a unique id for notes and add a error message if title or text is not provided
+		const { title, text } = note;
+		if(!title ||!text) {
+			throw new Error('Please provide a note title and note text');
+		}
+		// create a unique ID for each note
+		const createNote = { title, text, id: uuidv4() };
+	}
