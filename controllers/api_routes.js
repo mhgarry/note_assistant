@@ -17,3 +17,14 @@ router.post('/notes', (req, res) => {
     .then((note) => res.json(note))
     .catch((err) => res.status(500).json(err));
 });
+
+// delete request
+router.delete('/notes/:id', (req, res) => {
+	store
+	.removeNote(req.params.id),
+	.then(() => res.json({ removed: true}))
+	.catch((err) => res.status(500).json(err));
+})
+
+module.exports = router;
+
