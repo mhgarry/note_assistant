@@ -49,7 +49,7 @@ Note Assistant includes the ability to create, save, and delete notes directly i
 To build this application I used express to create a server. I used insomnia to test my REST api. I used. I used util to bring in utility functions I needed to use in my class. I used 'fs' to share functions and classes across different pages. I used uuidv4 to create unique ids for each note. I also used dotenv and nodemon for development. I used Heroku and GitHub to deploy this application.
 
 ## Tests
-A user can test my application by visition the url on their browser and creating and deleting notes.
+Test application by visiting the url  and creating and deleting notes.
 ## How to Contribute
 
 Other developers can contribute to this project by forking the repository for it on GitHub and following GitHub's contribution guidlines here https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors
@@ -57,10 +57,6 @@ Other developers can contribute to this project by forking the repository for it
 
 For any further questions I'm avaialble at mhgarry92@gmail.com
 To view and clone this project's repository as well as view other projects I'm working on visit github.com/mhgarry
-## Heroku Link 
-
-https://thawing-caverns-75920.herokuapp.com/
-
 
 ## Sources 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor
